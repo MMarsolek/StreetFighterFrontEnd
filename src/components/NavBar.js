@@ -1,37 +1,31 @@
-export default NavBar;
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav } from 'react-bootstrap';
-import Home from "./pages/Home";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Characters from "./pages/Characters";
 import About from "./pages/About";
 import User from "./pages/User";
 import Combos from "./pages/Combo";
+import Login from "./pages/LogIn";
+
 
 function NavBar() {
   return (
-    <>
+    <nav className="navbar">
       <Router>
-      <Nav variant="pills" defaultActiveKey="/">
-        <Nav.Item as="li">
-            <Nav.Link to="/">Go Home</Nav.Link>
-        </Nav.Item>
-      
-        <Nav.Item as="li">
-            <Nav.Link to="/about">About page</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-            <Nav.Link to="/login">About page</Nav.Link>
-        </Nav.Item>
-        <Nav.Item as="li">
-            <Nav.Link to="/combos">About page</Nav.Link>
-        </Nav.Item>
-    </Nav>
+        <Link to="/">character Selection</Link>
+        <Link to="/about">About Us</Link>
+        <Link to="/login">Login or Create Account</Link>
+        <Link to="/combos">Combos</Link>
+        <Link to="/profile">Profile</Link>
+
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Characters />} />
           <Route path="/about" element={<About />} />
           <Route path="/combos" element={<Combos />} />
-          <Route path="/login" element={<User />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<User />} />
         </Routes>
       </Router>
-    </>
+    </nav>
   );
 }
+
+export default NavBar;

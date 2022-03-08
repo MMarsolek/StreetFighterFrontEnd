@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import CharacterCard from '../components/CharacterCard.js';
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
 
@@ -38,12 +40,7 @@ export default function  Characters() {
           characters.map((character, index)=>{
             return(
               <div key={index} className="card col-2 mx-2">
-                <Link to={`/characters/${character.name}`} className="btn">
-                  <img className="card-img-top" src={character.portrait} alt="Card image cap"></img>
-                  <div className="card-body">
-                    <h2 className="font-weight-bold">{character.name}</h2>
-                  </div>
-                </Link>
+                <CharacterCard name={character.name} portrait={character.portrait}/>
               </div>
             ); 
           })

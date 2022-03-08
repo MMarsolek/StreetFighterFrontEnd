@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios'
-import { Link } from 'react-router-dom';
 import CharacterCard from '../components/CharacterCard.js';
-import { propTypes } from "react-bootstrap/esm/Image";
+import LoadingScreen from "../components/Loading.js";
 
 
 
@@ -25,13 +24,7 @@ export default function  Characters() {
       setCharacter(response.data);
   },[]);
     if(loading){
-      return (
-        <div className="container character-select-container">
-          <div className="row my-4 justify-content-center">
-            <img width={250}src="https://i.pinimg.com/originals/ee/78/4f/ee784f0d96fa6c0fc6ee6c54c8eba3df.gif"></img>
-          </div>
-        </div>
-      )
+      return <LoadingScreen/>
     }
   return (
     <div className="container character-select-container">

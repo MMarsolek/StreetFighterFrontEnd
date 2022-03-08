@@ -1,4 +1,4 @@
-// {
+{
 //     "workbench.colorCustomizations": {
 //         "activityBar.activeBackground": "#5c90b0",
 //         "activityBar.activeBorder": "#e0bfd3",
@@ -18,5 +18,8 @@
 //         "titleBar.inactiveBackground": "#47769399",
 //         "titleBar.inactiveForeground": "#e7e7e799"
 //     },
-//     "peacock.color": "#477693"
-// }
+//     "peacock.color": "#477693",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": true
+}

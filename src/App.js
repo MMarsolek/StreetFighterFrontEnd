@@ -1,11 +1,24 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import NavBar from "./components/NavBar";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar.js";
+import Characters from "./pages/Characters.js";
+import CharacterPage from "./pages/CharacterPage.js";
+import Resources from "./pages/Resources.js";
+import Login from "./pages/LogIn.js";
+import Profile from "./pages/Profile.js";
 
 function App() {
   return (
     <>
-      <NavBar/>
+      <Router>
+        <NavBar/>
+        <Routes>
+          <Route path="/" element={<Characters/>}/>
+          <Route path="/characters/:characterName" element={<CharacterPage/>}/>
+          <Route path="/resources" element={<Resources/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+        </Routes>
+      </Router>
     </>
   );
 }

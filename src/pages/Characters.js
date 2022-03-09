@@ -1,27 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from 'axios';
+import axios from 'axios'
 import CharacterCard from '../components/CharacterCard.js';
-import { propTypes } from "react-bootstrap/esm/Image";
+import LoadingScreen from "../components/Loading.js";
 
 
 
 export default function  Characters() {
   //Make axios request to get data from backend
   //For each character, return image card.
-  const [characters, setCharacter] = useState([]);
-
-  //On page load, we fetch all the characters from our api and store them in our characters array
+  const [characters, setCharacter] = useState([{}]);
+  const [loading, setLoading] = useState(true)
   useEffect(async () => {
-    let response;
-    try {
-      response = await axios.get('https://fierce-crag-37779.herokuapp.com/api/characters');
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-    setCharacter(response.data);
+      let response;
+      try{
+          response = await axios.get('https://fierce-crag-37779.herokuapp.com/api/characters');
+          if (loading){
+              setLoading(false)
+          }
+      }catch(err){
+          console.log(err);
+          throw err;
+      }
+      setCharacter(response.data);
   },[]);
-
+    if(loading){
+      return <LoadingScreen/>
+    }
   return (
     <div className="container character-select-container my-4">
       <div className="row justify-content-center">

@@ -27,12 +27,12 @@ export default function  Characters() {
       return <LoadingScreen/>
     }
   return (
-    <div className="container character-select-container">
-      <div className="row my-4 justify-content-center">
+    <div className="container character-select-container my-4">
+      <div className="row justify-content-center">
         {
           characters.map((character, index)=>{
             return(
-              <div key={index} className="card col-2 mx-2">
+              <div key={index} className="card col-5 col-md-3 col-lg-2 col-xl-1.5">
                 <CharacterCard name={character.name} portrait={character.portrait}/>
               </div>
             ); 

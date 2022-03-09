@@ -1,0 +1,30 @@
+#root{
+  background-color: #f8fcffda ;
+  font-size: large;
+}
+
+.navbar{
+  background: linear-gradient(#f8fcffda, #ffd2a8,#fc5858 );
+  position: fixed;
+
+}
+.navbar a, .char-name {
+  padding:1px;
+  margin: 5px;
+  text-decoration: none;
+  color: black;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.char-card{
+  text-align: center;
+  text-decoration: none;
+}
+
+.navbar a:hover, .char-card:hover{
+  color: black;
+  text-shadow:  0 0 3px orange,  2px 2px 5px red;
+  text-decoration: none;
+}
+
+

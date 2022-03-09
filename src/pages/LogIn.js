@@ -22,9 +22,6 @@ export default function LogIn() {
       </div>
 
       <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-      <p className="forgot-password text-right">
-        Forgot <a href="#">password?</a>
-      </p>
     </form>
   );
 }

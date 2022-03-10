@@ -98,9 +98,20 @@ export default function CharacterPage() {
     // Now that we've verified that the user's input is correct, we set renderedCombo equal to comboToRender
     setRenderedCombo(comboToRender);
     setRenderOK(true);
+    setRenderEntryField(false);
     // Then, we reset the error message to nothing, to ensure it's no longer rendered
     setErrorMessage('');
     // console.log("\nForm heckin' submitted\n");
+  }
+
+  const hideForm = () => {
+    setRenderEntryField(false);
+    setComboSubmission('');
+  }
+
+  const hideComboVisualizer = () => {
+    setRenderOK(false);
+    setRenderEntryField(true);
   }
 
   // TODO: how are we gonna sanitize inputs?
@@ -117,18 +128,18 @@ export default function CharacterPage() {
           <p>{character.description}</p>
 
           <div className="combo-entry-holder d-flex justify-content-center align-items-center">
-            {!renderEntryField && (
+            {!renderEntryField && !renderOK && (
               <button className="btn btn-secondary" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
             )}
             {/* Only render the combo entry field if renderEntryField is true */}
             {renderEntryField && (
               <form className="form" onSubmit={handleFormSubmit}>
                 <h3>Enter the combo you wish to translate below: </h3>
-                <textarea onChange={handleTextAreaChange} id="w3review" name="w3review" rows="3" cols="60" placeholder="Enter your combo here"></textarea>
+                <textarea onChange={handleTextAreaChange} value={comboSubmission} id="w3review" name="w3review" rows="3" cols="60" placeholder="Enter your combo here"></textarea>
                 {/* The error message will only be rendered here if it exists */}
                 {errorMessage && (<p className="error-text">{errorMessage}</p>)}
                 <button className="btn btn-secondary" type="submit">Render combo</button>
-                <button className="btn btn-secondary" type="button" onClick={() => setRenderEntryField(false)}>Cancel</button>
+                <button className="btn btn-secondary" type="button" onClick={hideForm}>Cancel</button>
             </form>
             )}
           </div> 
@@ -143,7 +154,7 @@ export default function CharacterPage() {
             })
           }
           <button className="btn btn-secondary" type="submit">Save combo</button>
-          <button className="btn btn-secondary" type="button">Close</button>
+          <button className="btn btn-secondary" type="button" onClick={hideComboVisualizer}>Close</button>
         </div>
       )}
 

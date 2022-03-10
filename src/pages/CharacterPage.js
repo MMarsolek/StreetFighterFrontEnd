@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import { validateNumPadNotation } from '../utils/helpers.js'
+import { validateNumPadNotation } from '../utils/helpers.js';
+import ComboMoveCard from '../components/ComboMoveCard.js';
 
 export default function CharacterPage() {
   // A state variable stores the info about the character for this page
@@ -9,6 +10,10 @@ export default function CharacterPage() {
   const [renderEntryField, setRenderEntryField] = useState(false);
   // A state variable that tracks the combo notation the user has entered in the text area on the page
   const [comboSubmission, setComboSubmission] = useState('');
+  // A state variable that tracks the contents of the user-generated combo (it'll be an array of objects)
+  const [renderedCombo, setRenderedCombo] = useState([]);
+  // A state variable that tracks whether to render the combo visualize field
+  const [renderOK, setRenderOK] = useState(false);
   // A state variable that tracks what, if anything, should be the content of the error message we'll render beneath the text area in case of an invalid combo submission
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -42,6 +47,8 @@ export default function CharacterPage() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
+    // Provided the user has entered a combo that's written in correct notation and corresponds to moves that are actually in this character's moveset, we'll fill this array up with the data that we'll use to render a combo to the page (and later, to make a POST request to our database if the user chooses to save the combo)
+    let comboToRender = [];
     // If the user hasn't entered anything, we render an error message
     if (!comboSubmission) {
       setErrorMessage("Please enter a combo!")
@@ -59,13 +66,24 @@ export default function CharacterPage() {
     }
 
     // Now that we've verified that the user has entered correct notation, we have to make sure that each of the steps in the combo they entered corresponds to a move that this character possesses
-    for (const step of submissionAttempt) {
+    for (let i = 0; i < submissionAttempt.length; i++) {
       let inMoveset = false;
+      const step = submissionAttempt[i].toUpperCase();
       console.log(`Checking for ${step} in ${character.name}'s moveset`);
 
       for (const move of character.Moves) {
-        if (move.numPadNotation === step) {
+        if (move.numPadNotation.toUpperCase() === step) {
           inMoveset = true;
+          // Adding the information necessary to render this step to our comboToRender array
+          comboToRender.push(
+            {
+              id: move.id,
+              image: move.image,
+              name: move.name,
+              input: move.input,
+              stepNumber: i + 1
+            }
+          );
           break;
         }
       }
@@ -76,21 +94,23 @@ export default function CharacterPage() {
         return;
       }
     } 
-
+    
+    // Now that we've verified that the user's input is correct, we set renderedCombo equal to comboToRender
+    setRenderedCombo(comboToRender);
+    setRenderOK(true);
     // Then, we reset the error message to nothing, to ensure it's no longer rendered
     setErrorMessage('');
     // console.log("\nForm heckin' submitted\n");
   }
 
-  //A function to render the combo entry field 
-
   // TODO: how are we gonna sanitize inputs?
+
   return (
     <div className="character-page container-fluid my-4">
       <div className="row justify-content-center">
         <div className="portrait-holder col-4 col-md-3 col-lg-2">
           {/* TODO: style this in CSS to make sure the image isn't constantly resizing in weird ways */}
-          <img className="card-img-top" src={character.portrait}></img>
+          <img className="card-img-top" src={character.portrait} alt={`A portrait of ${character.name}`}></img>
         </div>
         <div className="description-holder col-10 col-md-7 col-lg-9">
           <h1 className="font-weight-bold">{character.name} - {character.moniker}</h1>
@@ -114,6 +134,19 @@ export default function CharacterPage() {
           </div> 
         </div>
       </div>
+      {renderOK && (
+        <div className="combo-visualizer row justify-content-around">
+          <h1 className="text-align-center">{comboSubmission}</h1>
+          {
+            renderedCombo.map(step => {
+              return (<ComboMoveCard key={step.id} name={step.name} image={step.image} input={step.input} stepNumber={step.stepNumber}/>)
+            })
+          }
+          <button className="btn btn-secondary" type="submit">Save combo</button>
+          <button className="btn btn-secondary" type="button">Close</button>
+        </div>
+      )}
+
     </div>
   );
 }

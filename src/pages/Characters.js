@@ -35,7 +35,6 @@ export default function  Characters() {
             return(
               <div key={index} className="col-5 col-md-3 col-lg-2 col-xl-1.5">
                 <CharacterCard name={character.name} portrait={character.portrait}/>
-  
               </div>
             ); 
           })

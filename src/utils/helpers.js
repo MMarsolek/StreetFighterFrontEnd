@@ -4,11 +4,11 @@ export function validateNumPadNotation (notation) {
   const notationArray = notation.split(/[,>]|xx/);
 
   // This is a regex expression that we will use to make sure each step of the combo is written in proper numpad notation
-  const numPadEx = /^(([1-9]|\[[1-9]\])*)((LP|MP|HP|PP|LK|MK|HK|KK)+)$/;
+  const numPadEx = /^(([1-9]|\[[1-9]\]|j)*)((LP|MP|HP|PP|LK|MK|HK|KK)+)$/i;
 
   for (let i = 0; i < notationArray.length; i++) {
     // Getting rid of any superfluous spaces in the steps of the combo
-    notationArray[i] = notationArray[i].toUpperCase().trim();
+    notationArray[i] = notationArray[i].trim();
 
     // If a step fails the regex test, we return false
     if (!numPadEx.test(notationArray[i])){

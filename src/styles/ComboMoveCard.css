@@ -1,0 +1,31 @@
+.combo-move-card {
+  padding: 5px 0px;
+  margin: 10px 20px;
+  background-color: #ffd2a8!important;
+}
+
+.combo-move-card .card-image {
+  height: 200px;
+  width: 200px;
+}
+
+.combo-move-card .text-holder p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1199px) {
+  .combo-move-card .card-image {
+    height: 175px;
+    width: 175px;
+  }
+}
+
+
+
+@media screen and (max-width: 767px){
+  .combo-move-card .card-image {
+    height: 150px;
+    width: 150px;
+  }
+}

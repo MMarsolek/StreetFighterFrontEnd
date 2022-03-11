@@ -1,0 +1,20 @@
+.character-page .name-and-moniker {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.character-page textarea {
+  /* The below is equivalent to setting rows="3" cols="60" in html */
+  height: 100px;
+  width: 100%;
+}
+
+/* .character-page .button-holder {
+  max-width: 50%;
+} */
+
+.character-page .btn {
+  font-family: 'Permanent Marker', cursive;
+  margin: 0px 5px;
+  background: linear-gradient(#f8fcffda, #ffd2a8,#fc5858 );
+  font-size: 1.25em;
+}

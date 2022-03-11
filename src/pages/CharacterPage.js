@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 
@@ -80,6 +81,7 @@ export default function CharacterPage() {
               id: move.id,
               image: move.image,
               name: move.name,
+              numPadNotation: move.numPadNotation,
               input: move.input,
               stepNumber: i + 1
             }
@@ -107,6 +109,7 @@ export default function CharacterPage() {
   const hideForm = () => {
     setRenderEntryField(false);
     setComboSubmission('');
+    setErrorMessage('');
   }
 
   const hideComboVisualizer = () => {
@@ -124,37 +127,40 @@ export default function CharacterPage() {
           <img className="card-img-top" src={character.portrait} alt={`A portrait of ${character.name}`}></img>
         </div>
         <div className="description-holder col-10 col-md-7 col-lg-9">
-          <h1 className="font-weight-bold">{character.name} - {character.moniker}</h1>
+          <h1 className="font-weight-bold name-and-moniker">{character.name} - {character.moniker}</h1>
           <p>{character.description}</p>
-
-          <div className="combo-entry-holder d-flex justify-content-center align-items-center">
+        </div>
+        <div className="combo-entry-holder col-10 d-flex justify-content-center align-items-center">
             {!renderEntryField && !renderOK && (
-              <button className="btn btn-secondary" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
+              <button className="btn" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
             )}
             {/* Only render the combo entry field if renderEntryField is true */}
             {renderEntryField && (
               <form className="form" onSubmit={handleFormSubmit}>
                 <h3>Enter the combo you wish to translate below: </h3>
-                <textarea onChange={handleTextAreaChange} value={comboSubmission} id="w3review" name="w3review" rows="3" cols="60" placeholder="Enter your combo here"></textarea>
-                {/* The error message will only be rendered here if it exists */}
+                <textarea onChange={handleTextAreaChange} value={comboSubmission} placeholder="Enter your combo here"></textarea>
                 {errorMessage && (<p className="error-text">{errorMessage}</p>)}
-                <button className="btn btn-secondary" type="submit">Render combo</button>
-                <button className="btn btn-secondary" type="button" onClick={hideForm}>Cancel</button>
+                <div className="button-holder d-flex justify-content-center">
+                  {/* {errorMessage && (<p className="error-text">{errorMessage}</p>)} */}
+                  <button className="btn" type="submit">Render combo</button>
+                  <button className="btn" type="button" onClick={hideForm}>Cancel</button>
+                </div>
             </form>
             )}
           </div> 
-        </div>
       </div>
       {renderOK && (
-        <div className="combo-visualizer row justify-content-around">
-          <h1 className="text-align-center">{comboSubmission}</h1>
+        <div className="combo-visualizer row justify-content-center">
+          <h3 className="col-12 text-center my-3">{comboSubmission}</h3>
           {
             renderedCombo.map(step => {
-              return (<ComboMoveCard key={step.id} name={step.name} image={step.image} input={step.input} stepNumber={step.stepNumber}/>)
+              return (<ComboMoveCard key={step.id} name={step.name} image={step.image} numPadNotation={step.numPadNotation} input={step.input} stepNumber={step.stepNumber}/>)
             })
           }
-          <button className="btn btn-secondary" type="submit">Save combo</button>
-          <button className="btn btn-secondary" type="button" onClick={hideComboVisualizer}>Close</button>
+          <div className="button-holder save-holder d-flex justify-content-center">
+            <button className="btn" type="submit">Save combo</button>
+            <button className="btn" type="button" onClick={hideComboVisualizer}>Close</button>
+          </div>
         </div>
       )}
 

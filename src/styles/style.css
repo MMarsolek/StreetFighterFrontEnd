@@ -1,0 +1,48 @@
+#root{
+  background-color: #f8fcffda ;
+  font-size: large;
+}
+
+.navbar{
+  background: linear-gradient(#f51313, #ffd2a8,#f31919 );
+  position: fixed;
+}
+.user-container, .MuiBox-root{
+  align-items: center;
+  justify-content: sp;
+  padding:2%;
+  margin-right:5rem;
+  background: rgba(128, 128, 128, 0.637);
+  border-radius:5px;
+  justify-content:flex-end;
+
+}
+.button-container{
+  font-size: 1rem;
+  border: none;
+  background: none;
+  justify-content: space-evenly;
+}
+
+.navbar a, .char-name, .button{
+  padding:1px;
+  margin: 5px;
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: black;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.char-card{
+  text-align: center;
+  text-decoration: none;
+}
+
+.navbar a:hover, .char-card:hover, .button:hover{
+  color: black;
+  text-shadow:  0 0 3px orange,  2px 2px 5px red;
+  text-decoration: none;
+}
+
+

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import CharacterCard from '../components/CharacterCard.js';
 import LoadingScreen from "../components/Loading.js";
+import '../styles/style.css'
 
 
 
@@ -32,8 +33,9 @@ export default function  Characters() {
         {
           characters.map((character, index)=>{
             return(
-              <div key={index} className="card col-5 col-md-3 col-lg-2 col-xl-1.5">
+              <div key={index} className="col-5 col-md-3 col-lg-2 col-xl-1.5">
                 <CharacterCard name={character.name} portrait={character.portrait}/>
+  
               </div>
             ); 
           })

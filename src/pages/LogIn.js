@@ -1,5 +1,6 @@
-import React,  { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React,  {  useEffect } from 'react';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
+
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
 import {
@@ -11,18 +12,21 @@ import {
 
 const Login = ({ user }) => {
   const history = useNavigate();
-
+  let signedIn = false;
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements;
-    const email = formElements.email.value;
+    const username = formElements.username.value;
     const password = formElements.password.value;
     try{
-      await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/login`, {email, password });
-      <Link src="/register" to="/register"></Link>
+      const response = await axios.post(`http://localhost:3001/api/users/login`, {username, password });
+      window.localStorage.setItem('token', JSON.stringify(response.data.token));
+      window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+      signedIn = true;
+      history('/profile');
     }catch(error){
-      console.log(error.response.data.message)
+      console.log(error.response.status)
     }
   };
 
@@ -45,15 +49,15 @@ const boxStyle={
     <>
     <Grid container className='user-container' style={myStyle}>
       <Box  style={boxStyle}>
-        <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin}>
           <Grid>
             <Grid>
               <FormControl margin="normal" required>
                 <TextField
-                  aria-label="email"
-                  label="Email"
-                  name="email"
-                  type="email"
+                  aria-label="username"
+                  label="Username"
+                  name="username"
+                  type="text"
                 />
               </FormControl>
             </Grid>
@@ -65,12 +69,12 @@ const boxStyle={
                 name="password"
               />
             </FormControl>
-              <Grid container item className='button-container'>
+            <Grid container item className='button-container'>
                 <button className='button' type="submit">
                   Login
                 </button>
                 <Link className='button' href="/register" to="/register">
-                  Register
+                  Create a new account
                 </Link>
             </Grid>
           </Grid>

@@ -21,6 +21,7 @@ const Signup = ({ user }) => {
     const form = event.currentTarget;
     const formElements = form.elements;
     const email = formElements.email.value;
+    const username = formElements.username.value;
     const password = formElements.password.value;
     const confirmPassword = formElements.confirmPassword.value;
 
@@ -29,12 +30,15 @@ const Signup = ({ user }) => {
       return;
     }
     try{
-      await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/`, {email, password });
+     const response = await axios.post(`http://localhost:3001/api/users/`, {email, username, password });
+     console.log(response.data);
+     window.localStorage.setItem('token', JSON.stringify(response.data.token))
+     window.localStorage.setItem('userInfo', JSON.stringify(response.data.user))
     }catch(error){
-      console.log(error.response.data.message)
+      console.log(error.response.status)
+      return error.response.status;
     }
   };
-
   useEffect(() => {
     if (user && user.id) history.push('/home');
   }, [user, history]);
@@ -49,17 +53,29 @@ const Signup = ({ user }) => {
 };
 const boxStyle={
   width: '20rem',
-  height: '20rem'
+  height: 'fit-content'
 };
 
   return (
     <>
     <Grid container className='user-container' style={myStyle}>
       <Box  style={boxStyle}> 
-        <form onSubmit={handleRegister}>
+      <form onSubmit={handleRegister}>
           <Grid>
             <Grid>
-              <FormControl  margin="normal" required>
+              <FormControl>
+                <TextField
+                  aria-label="username"
+                  label="Username"
+                  name="username"
+                  inputProps={{ minLength: 6 }}
+                  type="text"
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid>
+              <FormControl>
                 <TextField
                   label="E-mail address"
                   aria-label="e-mail address"
@@ -100,12 +116,12 @@ const boxStyle={
               </FormControl>
             </Grid>
             <Grid container item className='button-container'>
-              <button className='button' type="submit">
-                Sign Up
-              </button>
-              <Link className='button' href="/login" to="/login">
-                Login
-              </Link>
+                <button className='button' type="submit">
+                  Signup
+                </button>
+                <Link className='button' href="/login" to="/login">
+                  Login with existing account
+                </Link>
             </Grid>
           </Grid>
         </form>

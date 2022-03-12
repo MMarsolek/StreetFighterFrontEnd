@@ -1,17 +1,59 @@
 /* TODO: rename this file something more specific */
+
 #root{
   background-color: #f8fcffda ;
   font-size: large;
+  min-height: 100vh;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 1rem;
+  height:10px 
 }
 
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ff932f, #f31919,#ff932f );
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(#f51313, #ff932f,#f31919 );
+}
 .navbar{
-  background: linear-gradient(#f8fcffda, #ffd2a8,#fc5858 );
+  background: linear-gradient(#f51313, #ffd2a8,#f31919 );
+  border-bottom: darkgrey solid 1px;
   position: fixed;
+}
+.user-container, .MuiBox-root{
+  align-items: center;
+  justify-content: sp;
+  padding:2%;
+  margin-right:5rem;
+  background: rgba(236, 236, 236, 0.637);
+  border-radius:5px;
+  justify-content:flex-end;
 
 }
-.navbar a, .char-name {
+.button-container{
+  font-size: 1rem;
+  border: none;
+  background: none;
+  justify-content: space-evenly;
+}
+
+.navbar a, .char-name, .button{
   padding:1px;
   margin: 5px;
+  background: none;
+  border: none;
   text-decoration: none;
   color: black;
   font-family: 'Permanent Marker', cursive;
@@ -22,7 +64,7 @@
   text-decoration: none;
 }
 
-.navbar a:hover, .char-card:hover{
+.navbar a:hover, .char-card:hover, .button:hover{
   color: black;
   text-shadow:  0 0 3px orange,  2px 2px 5px red;
   text-decoration: none;

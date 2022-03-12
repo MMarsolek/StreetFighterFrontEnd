@@ -5,6 +5,7 @@ import CharacterPage from "./pages/CharacterPage.js";
 import Resources from "./pages/Resources.js";
 import Login from "./pages/LogIn.js";
 import Profile from "./pages/Profile.js";
+import Signup from "./pages/Signup.js";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/resources" element={<Resources/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/register" element={<Signup/>}/>
         </Routes>
       </Router>
     </>

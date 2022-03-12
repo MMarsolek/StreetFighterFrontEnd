@@ -1,28 +1,88 @@
-import React from 'react'
+import React,  {  useEffect } from 'react';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 
-export default function LogIn() {
+import axios from 'axios';
+import background from '../styles/images/background.jpg'
+import {
+  Grid,
+  Box,
+  FormControl,
+  TextField,
+} from '@material-ui/core';
+
+const Login = ({ user }) => {
+  const history = useNavigate();
+  let signedIn = false;
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formElements = form.elements;
+    const username = formElements.username.value;
+    const password = formElements.password.value;
+    try{
+      const response = await axios.post(`http://localhost:3001/api/users/login`, {username, password });
+      window.localStorage.setItem('token', JSON.stringify(response.data.token));
+      window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+      signedIn = true;
+      history('/profile');
+    }catch(error){
+      console.log(error.response.status)
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.id) history.push('/home');
+  }, [user, history]);
+  const myStyle={
+    backgroundImage: `url(${background})`,
+    height:'90vh',
+    width:'100vw',
+    fontSize:'50px',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+};
+const boxStyle={
+  width: '20rem',
+  height: '15rem'
+};
   return (
-    <form>
-      <h3>Log in</h3>
-      <div className="form-group">
-        <label>Email</label>
-        <input type="email" className="form-control" placeholder="Enter email" />
-      </div>
-
-      <div className="form-group">
-        <label>Password</label>
-        <input type="password" className="form-control" placeholder="Enter password" />
-      </div>
-
-      <div className="form-group">
-        <div className="custom-control custom-checkbox">
-          <input type="checkbox" className="custom-control-input" id="customCheck1" />
-          <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-        </div>
-      </div>
-
-      <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
-    </form>
+    <>
+    <Grid container className='user-container' style={myStyle}>
+      <Box  style={boxStyle}>
+      <form onSubmit={handleLogin}>
+          <Grid>
+            <Grid>
+              <FormControl margin="normal" required>
+                <TextField
+                  aria-label="username"
+                  label="Username"
+                  name="username"
+                  type="text"
+                />
+              </FormControl>
+            </Grid>
+            <FormControl margin="normal" required>
+              <TextField
+                label="password"
+                aria-label="password"
+                type="password"
+                name="password"
+              />
+            </FormControl>
+            <Grid container item className='button-container'>
+                <button className='button' type="submit">
+                  Login
+                </button>
+                <Link className='button' href="/register" to="/register">
+                  Create a new account
+                </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
+    </Grid>
+    </>
   );
-}
+};
 
+export default Login;

@@ -11,8 +11,7 @@ import {
 } from '@material-ui/core';
 
 const Login = ({ user }) => {
-  const history = useNavigate();
-  let signedIn = false;
+  const navigate = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -23,16 +22,15 @@ const Login = ({ user }) => {
       const response = await axios.post(`http://localhost:3001/api/users/login`, {username, password });
       window.localStorage.setItem('token', JSON.stringify(response.data.token));
       window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
-      signedIn = true;
-      history('/profile');
+      navigate('/profile');
     }catch(error){
       console.log(error.response.status)
     }
   };
 
   useEffect(() => {
-    if (user && user.id) history.push('/home');
-  }, [user, history]);
+    if (user && user.id) navigate.push('/home');
+  }, [user, navigate]);
   const myStyle={
     backgroundImage: `url(${background})`,
     height:'90vh',

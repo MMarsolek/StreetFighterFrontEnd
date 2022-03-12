@@ -8,6 +8,7 @@ function NavBar() {
   if(token){
     const tokenData = JSON.parse(atob(token.split('.')[1]));
     if (tokenData.exp > new Date()/1000) {
+      console.log(tokenData)
       return (
         <nav className="navbar">
           <Link to="/">

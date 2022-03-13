@@ -34,7 +34,7 @@ const Login = ({ user }) => {
   }, [user, navigation]);
   const myStyle={
     backgroundImage: `url(${background})`,
-    height:'100vh',
+    height:'90vh',
     width:'100vw',
     fontSize:'50px',
     backgroundSize: 'cover',

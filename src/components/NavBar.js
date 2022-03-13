@@ -17,7 +17,7 @@ function NavBar() {
     display : 'flex',
     justifyContent:'space-between',
     top: '0',
-    zIndex: '1',
+    zIndex: '1'
   }
 
   const mySubStyle={

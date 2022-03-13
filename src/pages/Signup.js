@@ -30,7 +30,7 @@ const Signup = ({ user }) => {
       return;
     }
     try{
-     const response = await axios.post(`http://localhost:3001/api/users/`, {email, username, password });
+     const response = await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/`, {email, username, password });
      console.log(response.data);
      window.localStorage.setItem('token', JSON.stringify(response.data.token))
      window.localStorage.setItem('userInfo', JSON.stringify(response.data.user))

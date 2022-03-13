@@ -125,9 +125,8 @@ export default function CharacterPage() {
     // If they haven't, we'll render an error message--otherwise, we'll put together the stuff we need to make a post request to add this combo to the database.
     event.preventDefault();
     console.log(`on call of handleSubmissionFormSubmit\ncomboTitle: ${comboTitle}\ncomboNotes: ${comboNotes}`);
-    console.log(comboTitle.length);
-    console.log(comboNotes.length);
 
+    // Rendering error messages and not submitted a request if the user enters bad input
     if (!comboTitle) {
       setErrorMessage('A title is required!');
       return;
@@ -145,8 +144,10 @@ export default function CharacterPage() {
       title: comboTitle,
       notation: comboNotation,
       notes: comboNotes,
-      comboMoves: renderedCombo
+      comboMoves: renderedCombo,
+      token: window.localStorage.getItem("token")
     }
+
     console.log(newCombo);
 
     try {
@@ -162,8 +163,6 @@ export default function CharacterPage() {
       setErrorMessage('Error 500: failed to post combo');
       throw err;
     }
-
-
   }
 
   const hideEntryField = () => {
@@ -229,7 +228,6 @@ export default function CharacterPage() {
       {renderComboVisualize && (
         <div className="combo-visualizer row justify-content-center">
           <h3 className="col-12 text-center my-3">{comboNotation}</h3>
-          {console.log(renderedCombo)}
           {
             // Rendering cards that display each move in the combo stored in renderedCombo
             renderedCombo.map((step, index) => {

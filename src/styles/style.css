@@ -4,6 +4,7 @@
   background-color: #f8fcffda ;
   font-size: large;
   min-height: 100vh;
+  padding-top: 12vh;
 }
 /* width */
 ::-webkit-scrollbar {

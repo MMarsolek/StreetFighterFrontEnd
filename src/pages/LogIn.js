@@ -1,5 +1,5 @@
-import React,  {  useEffect } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import React,  {  useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 
 const Login = ({ user }) => {
-  const navigate = useNavigate();
+  const navigation = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -19,29 +19,32 @@ const Login = ({ user }) => {
     const username = formElements.username.value;
     const password = formElements.password.value;
     try{
-      const response = await axios.post(`http://localhost:3001/api/users/login`, {username, password });
+      const response = await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/login`, {username, password });
       window.localStorage.setItem('token', JSON.stringify(response.data.token));
       window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
-      navigate('/profile');
+      navigation('/profile');
     }catch(error){
       console.log(error.response.status)
+      return;
     }
   };
 
   useEffect(() => {
-    if (user && user.id) navigate.push('/home');
-  }, [user, navigate]);
+    if (user && user.id) navigation('/home');
+  }, [user, navigation]);
   const myStyle={
     backgroundImage: `url(${background})`,
-    height:'90vh',
+    height:'100vh',
     width:'100vw',
     fontSize:'50px',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
 };
+
 const boxStyle={
   width: '20rem',
-  height: '15rem'
+  height: '15rem',
+  margin: '2rem'
 };
   return (
     <>

@@ -14,7 +14,7 @@ export default function  Characters() {
   useEffect(async () => {
       let response;
       try{
-          response = await axios.get('http://localhost:3001/api/characters');
+          response = await axios.get('https://fierce-crag-37779.herokuapp.com/api/characters');
           if (loading){
               setLoading(false)
           }

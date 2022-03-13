@@ -6,6 +6,7 @@ import Resources from "./pages/Resources.js";
 import Login from "./pages/LogIn.js";
 import Profile from "./pages/Profile.js";
 import Signup from "./pages/Signup.js";
+import Combo from "./pages/Combo.js";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/register" element={<Signup/>}/>
+          <Route path="/combos/:id" element={<Combo/>}/>
         </Routes>
       </Router>
     </>

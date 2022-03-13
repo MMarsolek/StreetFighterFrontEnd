@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
+import ComboList from '../components/ComboList.js';
 
 export default function CharacterPage() {
   // stores the info about the character for this page
@@ -23,8 +24,12 @@ export default function CharacterPage() {
   const [comboTitle, setComboTitle] = useState('');
   // tracks the would-be notes about a combo to be posted to the database
   const [comboNotes, setComboNotes] = useState('');
+  // tracks if a post request to put up a combo has just been made. If one has, it's set to true.
+  // TODO: will this even work?
+  const [posted, setPosted] = useState(false);
 
   // We make a pull request on page load in order to get data about this character from our api
+  // TODO: make it so we also get one upon posting a combo
   useEffect(async () => {
     let response;
     // Getting the name that's in the url of this page
@@ -33,7 +38,10 @@ export default function CharacterPage() {
     try {
       // TODO: implement logic to handle case where some smartass tries to go to a page for a character that doesn't exist
       // Making a request to our api for the character whose name is in the url of this page
-      response = await axios.get(`http://localhost:3001/api/characters/${characterName}`);
+      response = await axios.get(`https://fierce-crag-37779.herokuapp.com/api/characters/${characterName}`);
+      console.log(response.data);
+      console.log(response.data.Combos);
+      setCharacter(response.data);
       // TODO: remove these print statements when you're done with them
     } catch (err) {
       console.log("=====\n" + err + "\n=====");
@@ -41,7 +49,6 @@ export default function CharacterPage() {
     }
      
     // Setting our character state variable equal to the data we got back from our request to our api
-    setCharacter(response.data);
   },[]);
 
   // Updates our comboNotation
@@ -141,6 +148,8 @@ export default function CharacterPage() {
       title: comboTitle,
       notation: comboNotation,
       notes: comboNotes,
+      // TODO: add UserId (get from local storage)
+      characterId: character.id,
       comboMoves: renderedCombo,
       token: window.localStorage.getItem("token")
     }
@@ -149,12 +158,12 @@ export default function CharacterPage() {
 
     try {
       console.log("attempting to post to database")
-      const response = await axios.post("http://localhost:3001/api/combos", newCombo);
+      const response = await axios.post("https://fierce-crag-37779.herokuapp.com/api/combos", newCombo);
       // TODO: remove these print statements when you're done with them
       console.log("response on posting: ");
       console.log(response);
       console.log("re-hiding everything and resetting all but one state variable");
-      hideEntryField();
+      window.location.reload();
     } catch (err) {
       console.log("=====\n" + err + "\n=====");
       setErrorMessage('Error 500: failed to post combo');
@@ -166,14 +175,6 @@ export default function CharacterPage() {
     setRenderEntryField(false);
     setcomboNotation('');
     setErrorMessage('');
-
-    // TODO: get rid of these once you've figured out what you're gonna do 
-    // Putting these here so we can use this as a "wipe the slate clean" button
-    setComboTitle('');
-    setComboNotes('');
-    setDisplaySubmissionForm(false);
-    setRenderedCombo([]);
-    setrenderComboVisualize(false);
   }
 
   const hideComboVisualizer = () => {
@@ -188,6 +189,10 @@ export default function CharacterPage() {
     setErrorMessage('');
     setDisplaySubmissionForm(false);
   }
+
+  // const renderComboList = () => {
+  //   setCombos
+  // }
 
   // TODO: how are we gonna sanitize inputs?
 
@@ -262,6 +267,7 @@ export default function CharacterPage() {
 
         </div>
       )}
+      {!renderComboVisualize && <ComboList combos={character.Combos}/>}
     </div>
   );
 }

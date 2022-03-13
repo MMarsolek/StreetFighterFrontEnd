@@ -33,10 +33,8 @@ export default function CharacterPage() {
     try {
       // TODO: implement logic to handle case where some smartass tries to go to a page for a character that doesn't exist
       // Making a request to our api for the character whose name is in the url of this page
-      response = await axios.get(`https://fierce-crag-37779.herokuapp.com/api/characters/${characterName}`);
+      response = await axios.get(`http://localhost:3001/api/characters/${characterName}`);
       // TODO: remove these print statements when you're done with them
-      console.log("data: ");
-      console.log(response.data);
     } catch (err) {
       console.log("=====\n" + err + "\n=====");
       throw err;
@@ -73,7 +71,6 @@ export default function CharacterPage() {
 
     //Checking to see if the text that the user is attempting to submit is in valid numpad notation
     const submissionAttempt = validateNumPadNotation(comboNotation);
-    console.log(submissionAttempt);
     
     // If it's not in valid numpad notation, we'll render an error message that says as much
     if (!submissionAttempt) {
@@ -148,11 +145,11 @@ export default function CharacterPage() {
       token: window.localStorage.getItem("token")
     }
 
-    console.log(newCombo);
+    console.log(newCombo.token);
 
     try {
       console.log("attempting to post to database")
-      const response = await axios.post("https://fierce-crag-37779.herokuapp.com/api/combos", newCombo);
+      const response = await axios.post("http://localhost:3001/api/combos", newCombo);
       // TODO: remove these print statements when you're done with them
       console.log("response on posting: ");
       console.log(response);

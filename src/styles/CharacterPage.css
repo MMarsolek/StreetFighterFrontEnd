@@ -8,13 +8,21 @@
   width: 100%;
 }
 
-/* .character-page .button-holder {
-  max-width: 50%;
-} */
+.character-page input {
+  width: 100%;
+  margin-bottom: 5px;
+  display: block;
+}
 
 .character-page .btn {
   font-family: 'Permanent Marker', cursive;
   margin: 0px 5px;
   background: linear-gradient(#f51313, #ffd2a8,#f31919 );
   font-size: 1.25em;
+}
+
+@media screen and (max-width: 767px) {
+  .character-page .button-holder {
+    display: block;
+  }
 }

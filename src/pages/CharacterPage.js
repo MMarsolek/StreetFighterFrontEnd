@@ -5,18 +5,24 @@ import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 
 export default function CharacterPage() {
-  // A state variable stores the info about the character for this page
+  // stores the info about the character for this page
   const [character, setCharacter] = useState({});
-  // A state variable that tracks whether or not to render the text area for submitting a combo
+  // tracks whether or not to render the text area for submitting a combo
   const [renderEntryField, setRenderEntryField] = useState(false);
-  // A state variable that tracks the combo notation the user has entered in the text area on the page
-  const [comboSubmission, setComboSubmission] = useState('');
-  // A state variable that tracks the contents of the user-generated combo (it'll be an array of objects)
+  // tracks the combo notation the user has entered in the text area on the page
+  const [comboNotation, setcomboNotation] = useState('');
+  // tracks the contents of the user-generated combo (it'll be an array of objects)
   const [renderedCombo, setRenderedCombo] = useState([]);
-  // A state variable that tracks whether to render the combo visualize field
-  const [renderOK, setRenderOK] = useState(false);
-  // A state variable that tracks what, if anything, should be the content of the error message we'll render beneath the text area in case of an invalid combo submission
+  // tracks whether to render the combo visualize field
+  const [renderComboVisualize, setrenderComboVisualize] = useState(false);
+  // tracks what, if anything, should be the content of the error message we'll render beneath the text area in case of an invalid combo submission
   const [errorMessage, setErrorMessage] = useState('');
+  // tracks whether to display the input areas for posting a combo
+  const [displaySubmissionForm, setDisplaySubmissionForm] = useState(false);
+  // tracks the would-be title of a combo to be posted to the database
+  const [comboTitle, setComboTitle] = useState('');
+  // tracks the would-be notes about a combo to be posted to the database
+  const [comboNotes, setComboNotes] = useState('');
 
   // We make a pull request on page load in order to get data about this character from our api
   useEffect(async () => {
@@ -40,24 +46,33 @@ export default function CharacterPage() {
     setCharacter(response.data);
   },[]);
 
-  // Updates our comboSubmission
-  const handleTextAreaChange = (event) => {
-    setComboSubmission(event.target.value);
+  // Updates our comboNotation
+  const handleChange = (event) => {
+    const targetName = event.target.name;
+    const targetValue = event.target.value;
+    
+    if (targetName === "notation-submission") {
+      setcomboNotation(targetValue);
+    } else if (targetName === "title-input") {
+      setComboTitle(targetValue);
+    } else {
+      setComboNotes(targetValue);
+    }
   }
 
-  const handleFormSubmit = (event) => {
+  const handleNotationFormSubmit = (event) => {
     event.preventDefault();
 
     // Provided the user has entered a combo that's written in correct notation and corresponds to moves that are actually in this character's moveset, we'll fill this array up with the data that we'll use to render a combo to the page (and later, to make a POST request to our database if the user chooses to save the combo)
     let comboToRender = [];
     // If the user hasn't entered anything, we render an error message
-    if (!comboSubmission) {
+    if (!comboNotation) {
       setErrorMessage("Please enter a combo!")
       return;
     }
 
     //Checking to see if the text that the user is attempting to submit is in valid numpad notation
-    const submissionAttempt = validateNumPadNotation(comboSubmission);
+    const submissionAttempt = validateNumPadNotation(comboNotation);
     console.log(submissionAttempt);
     
     // If it's not in valid numpad notation, we'll render an error message that says as much
@@ -78,7 +93,7 @@ export default function CharacterPage() {
           // Adding the information necessary to render this step to our comboToRender array
           comboToRender.push(
             {
-              id: move.id,
+              moveId: move.id,
               image: move.image,
               name: move.name,
               numPadNotation: move.numPadNotation,
@@ -99,22 +114,83 @@ export default function CharacterPage() {
     
     // Now that we've verified that the user's input is correct, we set renderedCombo equal to comboToRender
     setRenderedCombo(comboToRender);
-    setRenderOK(true);
+    setrenderComboVisualize(true);
     setRenderEntryField(false);
     // Then, we reset the error message to nothing, to ensure it's no longer rendered
     setErrorMessage('');
-    // console.log("\nForm heckin' submitted\n");
   }
 
-  const hideForm = () => {
+  const handleSubmissionFormSubmit = async (event) => {
+    // When the user hits "Submit" on a combo, we want to check to make sure the user has input a title.
+    // If they haven't, we'll render an error message--otherwise, we'll put together the stuff we need to make a post request to add this combo to the database.
+    event.preventDefault();
+    console.log(`on call of handleSubmissionFormSubmit\ncomboTitle: ${comboTitle}\ncomboNotes: ${comboNotes}`);
+    console.log(comboTitle.length);
+    console.log(comboNotes.length);
+
+    if (!comboTitle) {
+      setErrorMessage('A title is required!');
+      return;
+    } else if (comboTitle.length > 255) {
+      setErrorMessage('A title can have at most 255 characters!');
+      return;
+    }
+
+    if (comboNotes.length > 1000) {
+      setErrorMessage('A note can have at most 1000 characters!');
+      return;
+    }
+
+    const newCombo = {
+      title: comboTitle,
+      notation: comboNotation,
+      notes: comboNotes,
+      comboMoves: renderedCombo
+    }
+    console.log(newCombo);
+
+    try {
+      console.log("attempting to post to database")
+      const response = await axios.post("https://fierce-crag-37779.herokuapp.com/api/combos", newCombo);
+      // TODO: remove these print statements when you're done with them
+      console.log("response on posting: ");
+      console.log(response);
+      console.log("re-hiding everything and resetting all but one state variable");
+      hideEntryField();
+    } catch (err) {
+      console.log("=====\n" + err + "\n=====");
+      setErrorMessage('Error 500: failed to post combo');
+      throw err;
+    }
+
+
+  }
+
+  const hideEntryField = () => {
     setRenderEntryField(false);
-    setComboSubmission('');
+    setcomboNotation('');
     setErrorMessage('');
+
+    // TODO: get rid of these once you've figured out what you're gonna do 
+    // Putting these here so we can use this as a "wipe the slate clean" button
+    setComboTitle('');
+    setComboNotes('');
+    setDisplaySubmissionForm(false);
+    setRenderedCombo([]);
+    setrenderComboVisualize(false);
   }
 
   const hideComboVisualizer = () => {
-    setRenderOK(false);
+    setRenderedCombo([]);
+    setrenderComboVisualize(false);
     setRenderEntryField(true);
+  }
+
+  const hideSubmissionForm = () => {
+    setComboTitle('');
+    setComboNotes('');
+    setErrorMessage('');
+    setDisplaySubmissionForm(false);
   }
 
   // TODO: how are we gonna sanitize inputs?
@@ -131,39 +207,66 @@ export default function CharacterPage() {
           <p>{character.description}</p>
         </div>
         <div className="combo-entry-holder col-10 d-flex justify-content-center align-items-center">
-            {!renderEntryField && !renderOK && (
+            {/* This button will only render if we aren't already rendering a combo (!renderComboVisualize) and if we aren't rendering the entry field for combo notation (!renderEntryField) */}
+            {!renderEntryField && !renderComboVisualize && (
               <button className="btn" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
             )}
             {/* Only render the combo entry field if renderEntryField is true */}
             {renderEntryField && (
-              <form className="form" onSubmit={handleFormSubmit}>
+              <form className="form notation-form" name="notation-form" onSubmit={handleNotationFormSubmit}>
                 <h3>Enter the combo you wish to translate below: </h3>
-                <textarea onChange={handleTextAreaChange} value={comboSubmission} placeholder="Enter your combo here"></textarea>
+                <textarea onChange={handleChange} name="notation-submission" value={comboNotation} placeholder="Enter your combo here"></textarea>
                 {errorMessage && (<p className="error-text">{errorMessage}</p>)}
                 <div className="button-holder d-flex justify-content-center">
-                  {/* {errorMessage && (<p className="error-text">{errorMessage}</p>)} */}
                   <button className="btn" type="submit">Render combo</button>
-                  <button className="btn" type="button" onClick={hideForm}>Cancel</button>
+                  <button className="btn" type="button" onClick={hideEntryField}>Cancel</button>
                 </div>
-            </form>
+              </form>
             )}
-          </div> 
+        </div> 
       </div>
-      {renderOK && (
+      {/* If renderComboVisualize is true, then we have the go-ahead to render a translated combo to the page */}
+      {renderComboVisualize && (
         <div className="combo-visualizer row justify-content-center">
-          <h3 className="col-12 text-center my-3">{comboSubmission}</h3>
+          <h3 className="col-12 text-center my-3">{comboNotation}</h3>
+          {console.log(renderedCombo)}
           {
-            renderedCombo.map(step => {
-              return (<ComboMoveCard key={step.id} name={step.name} image={step.image} numPadNotation={step.numPadNotation} input={step.input} stepNumber={step.stepNumber}/>)
+            // Rendering cards that display each move in the combo stored in renderedCombo
+            renderedCombo.map((step, index) => {
+              // Note that step.moveId is equal to the id of the move in question
+              return (<ComboMoveCard key={index} moveId={step.moveId} name={step.name} image={step.image} numPadNotation={step.numPadNotation} input={step.input} stepNumber={step.stepNumber}/>)
             })
           }
-          <div className="button-holder save-holder d-flex justify-content-center">
-            <button className="btn" type="submit">Save combo</button>
-            <button className="btn" type="button" onClick={hideComboVisualizer}>Close</button>
-          </div>
+          {/* The below div only shows up if we've not opened up the field to post a combo (!displayComboPostingOK) */}
+          {
+            !displaySubmissionForm && (
+              <div className="button-holder save-holder col-10 d-flex justify-content-center">
+                <button className="btn" type="submit" onClick={() => setDisplaySubmissionForm(true)}>Post this combo</button>
+                <button className="btn" type="button" onClick={hideComboVisualizer}>Close</button>
+              </div>
+            )
+          }
+          {/* The field to post a combo to the database */}
+          {/* Only render the submission field if displaySubmissionForm is true */}
+          {displaySubmissionForm && (
+            <div className="submission-form-holder col-10 d-flex justify-content-center align-items-center">
+              {/* When  */}
+              <form className="form submission-form" name="submission-form" onSubmit={handleSubmissionFormSubmit}>
+                <h4>Enter the title of this combo</h4>
+                <input name="title-input" type="text" onChange={handleChange} value={comboTitle} placeholder="Enter title here (required)"/>
+                <h4>Enter any notes you may have about this combo</h4>
+                <textarea name="notes-input" onChange={handleChange} value={comboNotes} placeholder="Enter any notes you may have about this combo here (optional)"></textarea>
+                {errorMessage && (<p className="error-text">{errorMessage}</p>)}
+                <div className="button-holder d-flex justify-content-center">
+                  <button className="btn" type="submit">Submit</button>
+                  <button className="btn" type="button" onClick={hideSubmissionForm}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          )}
+
         </div>
       )}
-
     </div>
   );
 }

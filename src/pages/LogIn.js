@@ -1,8 +1,9 @@
 import React,  {  useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
+import backEndUrl from '../utils/urls'
 import {
   Grid,
   Box,
@@ -13,20 +14,30 @@ import {
 const Login = ({ user }) => {
   const navigation = useNavigate();
   const handleLogin = async (event) => {
+
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements;
     const username = formElements.username.value;
     const password = formElements.password.value;
     try{
-      const response = await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/login`, {username, password });
+      const response = await axios.post(`${backEndUrl}users/login`, {username, password });
       console.log('Log in attempted')
+      console.log(response.data.userObj)
       window.localStorage.setItem('token', response.data.token);
-      window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+      window.localStorage.setItem('userInfo', JSON.stringify(response.data.userObj));
       navigation('/profile');
     }catch(error){
       console.log(error)
-      return;
+      toast.error('Incorrect username or password', {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        })
     }
   };
 
@@ -35,7 +46,8 @@ const Login = ({ user }) => {
   }, [user, navigation]);
   const myStyle={
     backgroundImage: `url(${background})`,
-    height:'90vh',
+    height:'94vh',
+    marginTop: '-6vh',
     width:'100vw',
     fontSize:'50px',
     backgroundSize: 'cover',

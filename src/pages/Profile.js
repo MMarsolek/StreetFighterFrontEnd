@@ -1,4 +1,5 @@
 import React from 'react';
+import backEndUrl from '../utils/urls'
 
 export default function Profile() {
 

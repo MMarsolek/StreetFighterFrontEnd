@@ -4,6 +4,7 @@ import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 import ComboList from '../components/ComboList.js';
+import backEndUrl from '../utils/urls'
 
 export default function CharacterPage() {
   // stores the info about the character for this page
@@ -38,7 +39,7 @@ export default function CharacterPage() {
     try {
       // TODO: implement logic to handle case where some smartass tries to go to a page for a character that doesn't exist
       // Making a request to our api for the character whose name is in the url of this page
-      response = await axios.get(`https://fierce-crag-37779.herokuapp.com/api/characters/${characterName}`);
+      response = await axios.get(`${backEndUrl}characters/${characterName}`);
       console.log(response.data);
       console.log(response.data.Combos);
       setCharacter(response.data);
@@ -158,7 +159,7 @@ export default function CharacterPage() {
 
     try {
       console.log("attempting to post to database")
-      const response = await axios.post("https://fierce-crag-37779.herokuapp.com/api/combos", newCombo);
+      const response = await axios.post(`${backEndUrl}combos`, newCombo);
       // TODO: remove these print statements when you're done with them
       console.log("response on posting: ");
       console.log(response);

@@ -1,8 +1,9 @@
-import React,  {  useState, useEffect } from 'react';
+import React,  { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
+import useMediaQuery from '../utils/screensize'
 import backEndUrl from '../utils/urls'
 import {
   Grid,
@@ -12,6 +13,9 @@ import {
 } from '@material-ui/core';
 
 const Login = ({ user }) => {
+  const isMobile = useMediaQuery('(max-width: 700px)');
+  const isTablet = useMediaQuery('(max-width: 1025px)');
+
   const navigation = useNavigate();
   const handleLogin = async (event) => {
 
@@ -45,26 +49,38 @@ const Login = ({ user }) => {
     if (user && user.id) navigation('/home');
   }, [user, navigation]);
   const myStyle={
-    backgroundImage: `url(${background})`,
-    height:'94vh',
-    marginTop: '-6vh',
+    background: `url(${background})`,
+    height:'100vh',
     width:'100vw',
+    backgroundPosition: isMobile ? '25%' : '',
     fontSize:'50px',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-};
+    zIndex: '-1',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
+  };
 
 const boxStyle={
-  width: '20rem',
-  height: '15rem',
-  margin: '2rem'
+  width: isMobile ? '15rem':'20rem',
+  height: isMobile ? '15rem' : '20rem',
+  marginRight: isMobile ? '': isTablet ? '' : '-52%',
+  alignContent: 'center',
+  border: 'darkgrey solid 1px',
+  background: isMobile ? '#c5c2bec5' : 'rgba(236, 236, 236, 0.637)',
 };
+const gridStyle = {
+  padding: isMobile ? '0 2rem' : "0 1rem",
+  paddingTop: isMobile? '0':'1rem',
+}
+
   return (
     <>
     <Grid container className='user-container' style={myStyle}>
       <Box  style={boxStyle}>
       <form onSubmit={handleLogin}>
-          <Grid>
+        <Grid style={gridStyle}>
             <Grid>
               <FormControl margin="normal" required>
                 <TextField
@@ -84,11 +100,11 @@ const boxStyle={
               />
             </FormControl>
             <Grid container item className='button-container'>
-                <button className='button' type="submit">
+                <button className='button' type="submit" style={{padding: '.5rem 4rem'}}>
                   Login
                 </button>
-                <Link className='button' href="/register" to="/register">
-                  Create a new account
+                <Link className='button' href="/register" to="/register" style={{paddingTop: isMobile ? '0' : '1rem', fontSize : '.80rem'}}>
+                  Join the Fight
                 </Link>
             </Grid>
           </Grid>

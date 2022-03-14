@@ -4,7 +4,8 @@
   background-color: #f8fcffda ;
   font-size: large;
   min-height: 100vh;
-  padding-top: 12vh;
+  padding: 0;
+  margin: 0;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -30,15 +31,14 @@
 .user-container, .MuiBox-root{
   align-items: center;
   padding:2%;
-  background: rgba(236, 236, 236, 0.637);
   border-radius:5px;
   justify-content:flex-end;
-
 }
 .button-container{
   font-size: 1rem;
   border: none;
   background: none;
+  bottom: 0;
   justify-content: space-evenly;
 }
 
@@ -48,6 +48,7 @@
   text-decoration: none;
   color: black;
   font-family: 'Permanent Marker', cursive;
+  text-align: center;
 }
 
 .char-card{

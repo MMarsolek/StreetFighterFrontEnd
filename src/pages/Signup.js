@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
+import useMediaQuery from '../utils/screensize'
 import backEndUrl from '../utils/urls'
 
 import {
@@ -14,6 +15,8 @@ import {
 } from '@material-ui/core';
 
 const Signup = ({ user }) => {
+  const isMobile = useMediaQuery('(max-width: 700px)');
+  const isTablet = useMediaQuery('(max-width: 1025px)');
   const history = useNavigate();
   const navigation = useNavigate();
 
@@ -58,16 +61,29 @@ const Signup = ({ user }) => {
   }, [user, history]);
 
   const myStyle={
-    backgroundImage: `url(${background})`,
-    height:'90vh',
+    background: `url(${background})`,
+    height:'100vh',
     width:'100vw',
+    backgroundPosition: isMobile ? '25%' : '',
     fontSize:'50px',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
+    zIndex: '-1',
+    display: 'flex',
+    justifyContent: 'center',
 };
+
+const gridStyle = {
+  padding: isMobile ? '0 4rem' : "0 2rem",
+  paddingTop: isMobile? '1rem':'1rem',
+}
 const boxStyle={
   width: '20rem',
-  height: 'fit-content'
+  height: isMobile ? '25rem' : '28rem',
+  marginRight: isMobile ? '': isTablet ? '' : '-52%',
+  alignContent: 'center',
+  border: 'darkgrey solid 1px',
+  background: isMobile ? '#c5c2bec5' : 'rgba(236, 236, 236, 0.637)',
 };
 
   return (
@@ -75,7 +91,7 @@ const boxStyle={
     <Grid container className='user-container' style={myStyle}>
       <Box  style={boxStyle}> 
       <form onSubmit={handleRegister}>
-          <Grid>
+          <Grid style={gridStyle}>
             <Grid>
               <FormControl>
                 <TextField
@@ -114,7 +130,7 @@ const boxStyle={
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid>
+            <Grid >
               <FormControl error={!!formErrorMessage.confirmPassword}>
                 <TextField
                   label="Confirm Password"
@@ -129,13 +145,15 @@ const boxStyle={
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid container item className='button-container'>
+            <Grid container item className='button-container'style={{padding : '0 1rem'}}>
                 <button className='button' type="submit">
-                  Signup
+                  Join the fight
                 </button>
-                <Link className='button' href="/login" to="/login">
-                  Login with existing account
+                <Link className='button' href="/login" to="/login"style={{paddingTop: isMobile ? '0' : '1rem', fontSize : '.80rem'}}>
+                  Back to Login
                 </Link>
+
+
             </Grid>
           </Grid>
         </form>

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
 import useMediaQuery from '../utils/screensize'
+import backEndUrl from '../utils/urls'
+
 import {
   Grid,
   Box,
@@ -15,11 +18,13 @@ const Signup = ({ user }) => {
   const isMobile = useMediaQuery('(max-width: 700px)');
   const isTablet = useMediaQuery('(max-width: 1025px)');
   const history = useNavigate();
+  const navigation = useNavigate();
 
   const [formErrorMessage, setFormErrorMessage] = useState({});
 
   const handleRegister = async (event) => {
     event.preventDefault();
+    setFormErrorMessage({ confirmPassword: ' ' });
     const form = event.currentTarget;
     const formElements = form.elements;
     const email = formElements.email.value;
@@ -31,14 +36,24 @@ const Signup = ({ user }) => {
       setFormErrorMessage({ confirmPassword: 'Passwords must match' });
       return;
     }
+    console.log(username, email, password)
     try{
-     const response = await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/`, {email, username, password });
+     const response = await axios.post(`${backEndUrl}users/`, {email, username, password });
      console.log(response.data);
      window.localStorage.setItem('token', response.data.token)
      window.localStorage.setItem('userInfo', JSON.stringify(response.data.user))
+     navigation('/profile');
     }catch(error){
       console.log(error)
-      return error.response.status;
+      toast.error('Unable to create a new account', {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        })
     }
   };
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import NavBar from "./components/NavBar.js";
 import Characters from "./pages/Characters.js";
 import CharacterPage from "./pages/CharacterPage.js";
@@ -11,6 +12,17 @@ import Combo from "./pages/Combo.js";
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={10000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Router>
         <NavBar/>
         <Routes>

@@ -4,6 +4,8 @@ import CharacterCard from '../components/CharacterCard.js';
 import LoadingScreen from "../components/Loading.js";
 import '../styles/style.css'
 import useMediaQuery from '../utils/screensize'
+import backEndUrl from '../utils/urls'
+
 
 
 export default function  Characters() {
@@ -22,7 +24,7 @@ export default function  Characters() {
   useEffect(async () => {
       let response;
       try{
-          response = await axios.get('https://fierce-crag-37779.herokuapp.com/api/characters');
+          response = await axios.get(`${backEndUrl}characters`);
           if (loading){
               setLoading(false)
           }

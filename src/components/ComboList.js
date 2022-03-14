@@ -9,8 +9,11 @@ function ComboList (props) {
       <h1 className="text-center">Posted combos:</h1>
       {props.combos?.map((combo, index) => {
         // Passing each ComboListCard the info it needs to render its thumbnail of sorts for a specific combo
-        return(<ComboListCard key={index} combo={combo}/>)
+        return(<ComboListCard key={index} combo={combo} userId={props.userId}/>)
       })}
+      {props.combos?.length === 0 && (
+        <h2 className="col-10 text-center my-2">No combos have yet been posted for this character</h2>
+      )}
     </div>
   );
 }

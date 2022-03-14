@@ -4,7 +4,7 @@ import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 import ComboList from '../components/ComboList.js';
-import backEndUrl from '../utils/urls'
+import backEndUrl from '../utils/urls';
 
 export default function CharacterPage() {
   // stores the info about the character for this page
@@ -25,12 +25,8 @@ export default function CharacterPage() {
   const [comboTitle, setComboTitle] = useState('');
   // tracks the would-be notes about a combo to be posted to the database
   const [comboNotes, setComboNotes] = useState('');
-  // tracks if a post request to put up a combo has just been made. If one has, it's set to true.
-  // TODO: will this even work?
-  const [posted, setPosted] = useState(false);
 
   // We make a pull request on page load in order to get data about this character from our api
-  // TODO: make it so we also get one upon posting a combo
   useEffect(async () => {
     let response;
     // Getting the name that's in the url of this page
@@ -41,9 +37,8 @@ export default function CharacterPage() {
       // Making a request to our api for the character whose name is in the url of this page
       response = await axios.get(`${backEndUrl}characters/${characterName}`);
       console.log(response.data);
-      console.log(response.data.Combos);
+      console.log(response.data.Combos); 
       setCharacter(response.data);
-      // TODO: remove these print statements when you're done with them
     } catch (err) {
       console.log("=====\n" + err + "\n=====");
       throw err;
@@ -242,7 +237,7 @@ export default function CharacterPage() {
           {
             !displaySubmissionForm && (
               <div className="button-holder save-holder col-10 d-flex justify-content-center">
-                <button className="btn" type="submit" onClick={() => setDisplaySubmissionForm(true)}>Post this combo</button>
+                {JSON.parse(window.localStorage.getItem('userInfo'))?.user && (<button className="btn" type="button" onClick={() => setDisplaySubmissionForm(true)}>Post this combo</button>)} 
                 <button className="btn" type="button" onClick={hideComboVisualizer}>Close</button>
               </div>
             )
@@ -268,7 +263,7 @@ export default function CharacterPage() {
 
         </div>
       )}
-      {!renderComboVisualize && <ComboList combos={character.Combos}/>}
+      {!renderComboVisualize && <ComboList combos={character.Combos} userId={JSON.parse(window.localStorage.getItem('userInfo'))?.user.id}/>}
     </div>
   );
 }

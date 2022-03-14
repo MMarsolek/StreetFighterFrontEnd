@@ -29,7 +29,6 @@ export default function CharacterPage() {
   const [posted, setPosted] = useState(false);
 
   // We make a pull request on page load in order to get data about this character from our api
-  // TODO: make it so we also get one upon posting a combo
   useEffect(async () => {
     let response;
     // Getting the name that's in the url of this page
@@ -40,9 +39,11 @@ export default function CharacterPage() {
       // Making a request to our api for the character whose name is in the url of this page
       response = await axios.get(`https://fierce-crag-37779.herokuapp.com/api/characters/${characterName}`);
       console.log(response.data);
-      console.log(response.data.Combos);
+      console.log(response.data.Combos); 
+      // TODO: why are the below causing a syntax error when put in?
+      // const id = JSON.parse(window.localStorage.getItem('userInfo'))['user']['id'];
+      // console.log(JSON.parse(window.localStorage.getItem('userInfo'))['user']['id']);
       setCharacter(response.data);
-      // TODO: remove these print statements when you're done with them
     } catch (err) {
       console.log("=====\n" + err + "\n=====");
       throw err;

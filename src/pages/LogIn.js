@@ -19,7 +19,7 @@ const Login = ({ user }) => {
     const username = formElements.username.value;
     const password = formElements.password.value;
     try{
-      const response = await axios.post(`http://localhost:3001/api/users/login`, {username, password });
+      const response = await axios.post(`https://fierce-crag-37779.herokuapp.com/api/users/login`, {username, password });
       console.log('Log in attempted')
       window.localStorage.setItem('token', response.data.token);
       window.localStorage.setItem('userInfo', JSON.stringify(response.data.user));
@@ -35,7 +35,8 @@ const Login = ({ user }) => {
   }, [user, navigation]);
   const myStyle={
     backgroundImage: `url(${background})`,
-    height:'90vh',
+    height:'94vh',
+    marginTop: '-6vh',
     width:'100vw',
     fontSize:'50px',
     backgroundSize: 'cover',

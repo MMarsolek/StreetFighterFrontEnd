@@ -22,7 +22,8 @@ function NavBar() {
 
   const mySubStyle={
     justifyContent:'space-between',
-    paddingLeft: '2rem'
+    paddingLeft: '2rem',
+    paddingRight: '2rem'
   }
   const token = window.localStorage.getItem('token');
   if(token){

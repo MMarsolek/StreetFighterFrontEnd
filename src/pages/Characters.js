@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios'
 import CharacterCard from '../components/CharacterCard.js';
 import LoadingScreen from "../components/Loading.js";
-import '../styles/style.css'
-import useMediaQuery from '../utils/screensize'
-import backEndUrl from '../utils/urls'
+import '../styles/style.css';
+import useMediaQuery from '../utils/screensize';
+import { backEndUrl, testUrl } from '../utils/urls';
+
 
 
 
@@ -25,6 +26,7 @@ export default function  Characters() {
       let response;
       try{
           response = await axios.get(`${backEndUrl}characters`);
+          // response = await axios.get(`${testUrl}characters`);
           if (!loading){
               setLoading(false)
           }

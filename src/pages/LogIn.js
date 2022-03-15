@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import background from '../styles/images/background.jpg'
 import useMediaQuery from '../utils/screensize'
-import backEndUrl from '../utils/urls'
+import { backEndUrl, testUrl } from '../utils/urls';
 import {
   Grid,
   Box,
@@ -26,6 +26,7 @@ const Login = ({ user }) => {
     const password = formElements.password.value;
     try{
       const response = await axios.post(`${backEndUrl}users/login`, {username, password });
+      // const response = await axios.post(`${testUrl}users/login`, {username, password });
       console.log('Log in attempted')
       console.log(response.data.userObj)
       window.localStorage.setItem('token', response.data.token);

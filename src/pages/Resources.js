@@ -9,10 +9,11 @@ export default function Resources () {
 
   const twitterSetting = {
     width: isMobile ? 400 : isTablet? 400: 400,
-    height: isMobile ? 250 : 750
+    height: isMobile ? 250 : isTablet ? 350: 750
   }
   const containerSetting = {
-    paddingTop: isMobile? '2rem' : '5rem',
+    marginTop: isMobile ? '3.7rem' : '3.9rem',
+    paddingTop: isMobile? '2rem' : '1rem',
     paddingBottom: isMobile? '0' : '.78rem',
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -22,7 +23,6 @@ export default function Resources () {
     backgroundColor: '#f8fcffda',
     textDecoration: 'none',
     color: 'black',
-    // fontFamily: "'Permanent Marker', cursive",
     textAlign: 'center',
     border: 'darkgrey solid 1px',
 

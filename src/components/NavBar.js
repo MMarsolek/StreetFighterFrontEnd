@@ -80,9 +80,9 @@ function NavBar() {
         </Link>
       </section>
       <section>
-      <Link  style={mySubStyle}to="/">{ isMobile ? <div> <img src={home} height='35rem'/> </div> :'Character Selection'}</Link>
-      <Link  style={mySubStyle}to="/resources">{ isMobile ? <div> <img src={about} height='35rem'/> </div> :'Resources'}</Link>
-      <Link  style={mySubStyle}to="/login">{ isMobile ? <div> <img src={login} height='35rem'/> </div> :'Log in'}</Link>
+      <Link  style={mySubStyle}to="/">{ isMobile ? <div> <img src={home} height='35rem'/> </div> :'Characters'}</Link>
+      <Link  style={mySubStyle}to="/resources">{ isMobile ? <div> <img src={about} height='35rem'/> </div> :'Links'}</Link>
+      <Link  style={mySubStyle}to="/login">{ isMobile ? <div> <img src={login} height='35rem'/> </div> :'Join the fight'}</Link>
       </section>
     </nav>
   );

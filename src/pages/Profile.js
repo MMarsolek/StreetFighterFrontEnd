@@ -24,7 +24,7 @@ export default function Profile() {
 
   return (
     <div className="container-fluid" style={{paddingTop: '5rem'}}>
-        <h1 className="text-center">Welcome, {user.username}!</h1>
+        <h1 className="text-center" style={{fontFamily: 'Permanent Marker'}}>Welcome, {user.username}!</h1>
         <ComboList combos={user.Combos} userId={user.id} profile={true}/>
     </div>
   );

@@ -57,8 +57,8 @@ function NavBar() {
           </section>
           <section>
             {/* TODO: character select borked between 701 and 756 px screen width, inclusive */}
-            <Link  style={mySubStyle} to="/">{ isMobile ? <div> <img src={home} height='35rem' /> </div> : 'Select Character' }</Link>
-            <Link  style={mySubStyle} to="/resources">{isMobile ? <div> <img src={about} height='35rem'/> </div> : 'Resources'}</Link>
+            <Link  style={mySubStyle} to="/">{ isMobile ? <div> <img src={home} height='35rem' /> </div> : 'Characters' }</Link>
+            <Link  style={mySubStyle} to="/resources">{isMobile ? <div> <img src={about} height='35rem'/> </div> : 'Links'}</Link>
             <Link  style={mySubStyle} to="/profile">{isMobile ? <div> <img src={profile} height='35rem'/> </div> : 'Profile'}</Link>
             <a  style={mySubStyle}onClick={() => {
               window.localStorage.removeItem('token');

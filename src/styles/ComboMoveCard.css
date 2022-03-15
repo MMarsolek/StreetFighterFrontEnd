@@ -1,12 +1,22 @@
 .combo-move-card {
-  padding: 5px 0px;
-  margin: 10px 20px;
-  background-color: #ffd2a8!important;
+  margin-top: 10px;
+  /* margin: 10px 20px; */
+  /* background-color: #ffd2a8!important; */
+}
+
+.combo-move-card .inside-card {
+  border: 'darkgrey solid 1px'!important;
+  background-color: #c5c2bec5!important;
+  width: 80%;
 }
 
 .combo-move-card .card-image {
   height: 200px;
   width: 200px;
+}
+
+.combo-move-card .text-holder {
+  margin: 10px;
 }
 
 .combo-move-card .text-holder p {
@@ -21,11 +31,20 @@
   }
 }
 
-
+@media screen and (max-width: 991px) {
+  .combo-move-card .card-image {
+    height: 150px;
+    width: 150px;
+  }
+}
 
 @media screen and (max-width: 767px){
   .combo-move-card .card-image {
     height: 150px;
     width: 150px;
+  }
+
+  .combo-move-card .inside-card {
+    width: 90%;
   }
 }

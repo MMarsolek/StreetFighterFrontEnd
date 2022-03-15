@@ -2,8 +2,8 @@ import React,  { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import background from '../styles/images/background.jpg'
-import useMediaQuery from '../utils/screensize'
+import background from '../styles/images/background.jpg';
+import useMediaQuery from '../utils/screensize';
 import { backEndUrl, testUrl } from '../utils/urls';
 import {
   Grid,
@@ -13,8 +13,10 @@ import {
 } from '@material-ui/core';
 
 const Login = ({ user }) => {
-  const isMobile = useMediaQuery('(max-width: 700px)');
-  const isTablet = useMediaQuery('(max-width: 1025px)');
+  // const isMobile = useMediaQuery('(max-width: 700px)');
+  // const isTablet = useMediaQuery('(max-width: 1025px)');
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  const isTablet = useMediaQuery('(max-width: 991px)');
 
   const navigation = useNavigate();
   const handleLogin = async (event) => {

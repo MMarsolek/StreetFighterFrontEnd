@@ -39,8 +39,8 @@ function NavBar() {
   const mySubStyle={
     justifyContent:'space-between',
     display : isMobile ? 'inline-block' : 'row',
-    paddingLeft: isMobile ? '1rem' : isTablet ? '' : '2rem',
-    paddingRight: isMobile ? '1rem' : isTablet ? '4rem' : '2rem',
+    paddingLeft: isMobile ? '.5rem' : isTablet ? '' : '2rem',
+    paddingRight: isMobile ? '.5rem' : isTablet ? '4rem' : '2rem',
     fontSize: isMobile ? '1rem' : 'large',
   }
   const token = window.localStorage.getItem('token');

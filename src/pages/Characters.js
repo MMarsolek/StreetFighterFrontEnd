@@ -21,15 +21,15 @@ export default function  Characters() {
   //Make axios request to get data from backend
   //For each character, return image card.
   const [characters, setCharacter] = useState([{}]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   useEffect(async () => {
       let response;
       try{
-          response = await axios.get(`${backEndUrl}characters`);
-          // response = await axios.get(`${testUrl}characters`);
-          if (!loading){
-              setLoading(false)
-          }
+        response = await axios.get(`${backEndUrl}characters`);
+        // response = await axios.get(`${testUrl}characters`);
+        if (!loading){
+            setLoading(true)
+        }
       }catch(err){
           console.log(err);
           throw err;

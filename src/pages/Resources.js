@@ -9,10 +9,11 @@ export default function Resources () {
 
   const twitterSetting = {
     width: isMobile ? 400 : isTablet? 400: 400,
-    height: isMobile ? 250 : 750
+    height: isMobile ? 250 : isTablet ? 350: 750
   }
   const containerSetting = {
-    paddingTop: isMobile? '2rem' : '5rem',
+    marginTop: isMobile ? '3.7rem' : '3.9rem',
+    paddingTop: isMobile? '2rem' : '1rem',
     paddingBottom: isMobile? '0' : '.78rem',
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -22,7 +23,6 @@ export default function Resources () {
     backgroundColor: '#f8fcffda',
     textDecoration: 'none',
     color: 'black',
-    fontFamily: "'Permanent Marker', cursive",
     textAlign: 'center',
     border: 'darkgrey solid 1px',
 
@@ -54,11 +54,11 @@ export default function Resources () {
     <div style={containerSetting}> 
       <section  style={infoListStyle}>
         <section>
-          <a href='https://us.streetfighter.com/' className='button' target={'_blank'}> 
+          <a href='https://us.streetfighter.com/' className='button' target={'_blank'} rel={'noreferrer'}> 
             <h4>The official site </h4>
           </a>
           <p style={{fontSize:'medium', paddingTop:'0'}}>
-              The official CapCom site dedicated to all of the Street Fighter games. This site has links to where you can purchase games and watch the trailers.
+              The official CapCom site for Street Fighter V. This site has a variety of beginner-friendly info, as well as links to merchandise and trailers.
           </p>
           </section>
         <section>
@@ -66,7 +66,7 @@ export default function Resources () {
         <h4>Community Wiki</h4>
       </a>
       <p style={{fontSize:'medium', paddingTop:'0'}}>
-          This community driven site is a great source for data on all the characters.
+          This community-maintained site is a great source for data on all of SFV's characters.
         </p>
         </section>
         <section>
@@ -74,7 +74,7 @@ export default function Resources () {
       <h4>Character frame data</h4>
       </a>
         <p style={{fontSize:'medium', paddingTop:'0'}}>
-        This site breakdowns all of the data associated with the various attacks that each character has.
+        This site (also available as a mobile app) provides in-depth frame data breakdowns for every member of SFV's cast.
         </p>
         </section>
       </section>

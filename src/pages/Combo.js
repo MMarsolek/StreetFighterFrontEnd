@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 import { backEndUrl, testUrl } from '../utils/urls';
+import '../styles/Combo.css';
 
 function Combo() {
   // The combo that this page is about
@@ -26,7 +27,7 @@ function Combo() {
     <div className="combo-container container-fluid">
       <div className="row justify-content-center" style={{paddingTop: '2rem'}}>
         <div className="title-holder col-12 my-5">
-          <h1 className="text-center">{combo.title}</h1>
+          <h1 className="text-center combo-title">{combo.title}</h1>
           <h3 className="text-center">{combo.notation}</h3>
         </div>
         {combo.ComboMoves?.map((step, index) => {
@@ -36,7 +37,7 @@ function Combo() {
         <div className="notes-holder col-12 my-5">
         {combo.notes && (
           <div>
-            <h3 className="text-center">Notes:</h3>
+            <h3 className="text-center notes">Notes:</h3>
             <h4 className="text-center">{combo.notes}</h4>
           </div>
         )}

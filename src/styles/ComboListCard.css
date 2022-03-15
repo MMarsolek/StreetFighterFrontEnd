@@ -1,0 +1,35 @@
+.combo-list-card {
+  border-style: solid;
+  border: '1px';
+  background-color: 	#ECECEC!important;
+}
+
+.combo-list-card .combo-title {
+  font-family: 'Permanent Marker', cursive;
+  color: #4F4F4F!important;
+}
+
+.combo-list-card .character-name {
+  font-weight: bold;
+  color: #4F4F4F!important;
+}
+
+.combo-list-card .combo-title:hover, .combo-list-card .character-name:hover {
+  color: #f52f2c!important;
+} 
+
+.combo-list-card .delete-button {
+  margin-top: 30px;
+  cursor: pointer;
+} 
+
+.combo-list-card  .delete-button:hover {
+  opacity: 50%;
+} 
+
+
+@media screen and (max-width: 991px) {
+  .combo-list-card .delete-button {
+    margin-top: 5px;
+  }
+}

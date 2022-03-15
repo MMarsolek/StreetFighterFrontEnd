@@ -25,7 +25,7 @@ export default function  Characters() {
       let response;
       try{
           response = await axios.get(`${backEndUrl}characters`);
-          if (loading){
+          if (!loading){
               setLoading(false)
           }
       }catch(err){
@@ -34,12 +34,12 @@ export default function  Characters() {
       }
       setCharacter(response.data);
   },[]);
-    if(loading){
+    if(!loading){
       return <LoadingScreen/>
     }
   return (
     <div className="container character-select-container my-4">
-      <h1 className="char-name"  style={myStyles}> Choose your fighter</h1>
+      <h1 className="char-name"  style={myStyles}>Choose your fighter</h1>
       <div className="row justify-content-center">
         {
           characters.map((character, index)=>{

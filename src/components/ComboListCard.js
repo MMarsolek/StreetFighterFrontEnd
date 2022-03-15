@@ -9,7 +9,7 @@ function ComboListCard (props) {
     try {
       // TODO: implement logic to handle case where some smartass tries to go to a page for a character that doesn't exist
       // Making a request to our api for the character whose name is in the url of this page
-      await axios.delete(`${backEndUrl}combos/${props.combo.id}`, { data: {token: window.localStorage.getItem("token")}});
+      await axios.delete(`${backEndUrl}combos/${props.combo.id}`, { headers: {token: window.localStorage.getItem("token")}});
       window.location.reload();
     } catch (err) {
       console.log("=====\n" + err + "\n=====");

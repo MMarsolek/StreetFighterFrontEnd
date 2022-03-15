@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ComboMoveCard from '../components/ComboMoveCard.js';
+import backEndUrl from '../utils/urls';
 
 function Combo() {
   // The combo that this page is about
@@ -11,7 +12,7 @@ function Combo() {
     const urlPath = window.location.pathname.split('/');
     const comboId = urlPath[urlPath.length - 1];
     try {
-      response = await axios.get(`https://fierce-crag-37779.herokuapp.com/api/combos/${comboId}`);
+      response = await axios.get(`${backEndUrl}combos/${comboId}`);
       console.log(response.data);
       setCombo(response.data);
     } catch (err) {
@@ -22,7 +23,7 @@ function Combo() {
 
   return (
     <div className="combo-container container-fluid">
-      <div className="row justify-content-center">
+      <div className="row justify-content-center" style={{paddingTop: '2rem'}}>
         <div className="title-holder col-12 my-5">
           <h1 className="text-center">{combo.title}</h1>
           <h3 className="text-center">{combo.notation}</h3>

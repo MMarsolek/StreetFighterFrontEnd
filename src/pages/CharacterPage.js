@@ -154,7 +154,7 @@ export default function CharacterPage() {
 
     try {
       console.log("attempting to post to database")
-      const response = await axios.post(`${backEndUrl}combos`, newCombo);
+      const response = await axios.post(`${backEndUrl}combos`, newCombo, { headers: {token: window.localStorage.getItem("token")}});
       // TODO: remove these print statements when you're done with them
       console.log("response on posting: ");
       console.log(response);
@@ -193,7 +193,7 @@ export default function CharacterPage() {
   // TODO: how are we gonna sanitize inputs?
 
   return (
-    <div className="character-page container-fluid my-4">
+    <div className="character-page container-fluid my-4" style={{paddingTop: '3rem'}}>
       <div className="row justify-content-center">
         <div className="portrait-holder col-4 col-md-3 col-lg-2">
           {/* TODO: style this in CSS to make sure the image isn't constantly resizing in weird ways */}

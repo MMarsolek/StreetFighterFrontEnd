@@ -29,9 +29,9 @@ export default function Resources () {
   }
 
   const myStyle={
+    minHeight: '100vh',
     background: `url(${background})`,
     backgroundPosition: 'center',
-    backgroundSize:  'auto',
     display:'flex',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

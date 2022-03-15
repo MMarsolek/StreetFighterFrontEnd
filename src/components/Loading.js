@@ -10,8 +10,8 @@ export default function LoadingScreen(){
 
   return (
     <div className="container character-select-container">
-      <div className="row justify-content-center">
-        <img width={400}src={background} textAlign={'right'}></img>
+      <div  style={isMobile? {marginTop: '5rem'}: isTablet? {marginTop: '5rem'}: {paddingTop: '-2%', marginLeft:'5rem',width: '80vw'}} className="row justify-content-center">
+        <img width={400}src={background}></img>
       </div>
     </div>
   )

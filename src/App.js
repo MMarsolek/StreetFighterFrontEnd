@@ -8,6 +8,7 @@ import Login from "./pages/LogIn.js";
 import Profile from "./pages/Profile.js";
 import Signup from "./pages/Signup.js";
 import Combo from "./pages/Combo.js";
+import PageNotFound from './pages/404';
 
 function App() {
   return (

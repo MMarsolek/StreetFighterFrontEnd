@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import background from '../styles/images/background.jpg'
-import useMediaQuery from '../utils/screensize'
-import backEndUrl from '../utils/urls'
+import background from '../styles/images/background.jpg';
+import useMediaQuery from '../utils/screensize';
+import { backEndUrl, testUrl } from '../utils/urls';
 
 import {
   Grid,
@@ -39,9 +39,10 @@ const Signup = ({ user }) => {
     console.log(username, email, password)
     try{
      const response = await axios.post(`${backEndUrl}users/`, {email, username, password });
+    //  const response = await axios.post(`${testUrl}users/`, {email, username, password });
      console.log(response.data);
      window.localStorage.setItem('token', response.data.token)
-     window.localStorage.setItem('userInfo', JSON.stringify(response.data.user))
+     window.localStorage.setItem('userInfo', JSON.stringify(response.data.userObj))
      navigation('/profile');
     }catch(error){
       console.log(error)

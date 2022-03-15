@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ComboMoveCard from '../components/ComboMoveCard.js';
-import backEndUrl from '../utils/urls';
+import { backEndUrl, testUrl } from '../utils/urls';
 
 function Combo() {
   // The combo that this page is about
@@ -13,6 +13,7 @@ function Combo() {
     const comboId = urlPath[urlPath.length - 1];
     try {
       response = await axios.get(`${backEndUrl}combos/${comboId}`);
+      // response = await axios.get(`${testUrl}combos/${comboId}`);
       console.log(response.data);
       setCombo(response.data);
     } catch (err) {
@@ -33,8 +34,12 @@ function Combo() {
           return (<ComboMoveCard key={index} moveId={step.MoveId} name={step.Move.name} image={step.Move.image} numPadNotation={step.Move.numPadNotation} input={step.Move.input} stepNumber={step.stepNumber}/>)
         })}
         <div className="notes-holder col-12 my-5">
-          <h3 className="text-center">Notes:</h3>
-          <h4 className="text-center">{combo.notes}</h4>
+        {combo.notes && (
+          <div>
+            <h3 className="text-center">Notes:</h3>
+            <h4 className="text-center">{combo.notes}</h4>
+          </div>
+        )}
         </div>
       </div>
     </div>

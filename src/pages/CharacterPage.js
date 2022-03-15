@@ -4,7 +4,7 @@ import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 import ComboList from '../components/ComboList.js';
-import backEndUrl from '../utils/urls';
+import { backEndUrl, testUrl } from '../utils/urls';
 
 export default function CharacterPage() {
   // stores the info about the character for this page
@@ -36,6 +36,7 @@ export default function CharacterPage() {
       // TODO: implement logic to handle case where some smartass tries to go to a page for a character that doesn't exist
       // Making a request to our api for the character whose name is in the url of this page
       response = await axios.get(`${backEndUrl}characters/${characterName}`);
+      // response = await axios.get(`${testUrl}characters/${characterName}`);
       console.log(response.data);
       console.log(response.data.Combos); 
       setCharacter(response.data);
@@ -154,7 +155,8 @@ export default function CharacterPage() {
 
     try {
       console.log("attempting to post to database")
-      const response = await axios.post(`${backEndUrl}combos`, newCombo);
+      const response = await axios.post(`${backEndUrl}combos`, newCombo, { headers: {token: window.localStorage.getItem("token")}});
+      // const response = await axios.post(`${testUrl}combos`, newCombo, { headers: {token: window.localStorage.getItem("token")}});
       // TODO: remove these print statements when you're done with them
       console.log("response on posting: ");
       console.log(response);
@@ -186,14 +188,10 @@ export default function CharacterPage() {
     setDisplaySubmissionForm(false);
   }
 
-  // const renderComboList = () => {
-  //   setCombos
-  // }
-
   // TODO: how are we gonna sanitize inputs?
 
   return (
-    <div className="character-page container-fluid my-4">
+    <div className="character-page container-fluid my-4" style={{paddingTop: '5rem'}}>
       <div className="row justify-content-center">
         <div className="portrait-holder col-4 col-md-3 col-lg-2">
           {/* TODO: style this in CSS to make sure the image isn't constantly resizing in weird ways */}
@@ -263,7 +261,7 @@ export default function CharacterPage() {
 
         </div>
       )}
-      {!renderComboVisualize && <ComboList combos={character.Combos} userId={JSON.parse(window.localStorage.getItem('userInfo'))?.user.id}/>}
+      {!renderComboVisualize && <ComboList combos={character.Combos} userId={JSON.parse(window.localStorage.getItem('userInfo'))?.user.id} profile={false}/>}
     </div>
   );
 }

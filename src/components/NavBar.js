@@ -39,8 +39,8 @@ function NavBar() {
   const mySubStyle={
     justifyContent:'space-between',
     display : isMobile ? 'inline-block' : 'row',
-    paddingLeft: isMobile ? '1rem' : isTablet ? '' : '2rem',
-    paddingRight: isMobile ? '1rem' : isTablet ? '4rem' : '2rem',
+    paddingLeft: isMobile ? '.5rem' : isTablet ? '' : '2rem',
+    paddingRight: isMobile ? '.5rem' : isTablet ? '4rem' : '2rem',
     fontSize: isMobile ? '1rem' : 'large',
   }
   const token = window.localStorage.getItem('token');
@@ -56,9 +56,10 @@ function NavBar() {
             </Link>
           </section>
           <section>
-            <Link  style={mySubStyle} to="/">{ isMobile ? <div> <img src={home} height='35rem' /> </div> : 'Character Selection' }</Link>
+            {/* TODO: character select borked between 701 and 756 px screen width, inclusive */}
+            <Link  style={mySubStyle} to="/">{ isMobile ? <div> <img src={home} height='35rem' /> </div> : 'Select Character' }</Link>
             <Link  style={mySubStyle} to="/resources">{isMobile ? <div> <img src={about} height='35rem'/> </div> : 'Resources'}</Link>
-            <Link  style={mySubStyle} to="/profile">{isMobile ? <div> <img src={profile} height='35rem'/> </div> : tokenData.metadata.userName}</Link>
+            <Link  style={mySubStyle} to="/profile">{isMobile ? <div> <img src={profile} height='35rem'/> </div> : 'Profile'}</Link>
             <a  style={mySubStyle}onClick={() => {
               window.localStorage.removeItem('token');
               window.localStorage.removeItem('userInfo');

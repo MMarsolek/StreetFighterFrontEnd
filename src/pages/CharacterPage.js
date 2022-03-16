@@ -4,9 +4,12 @@ import '../styles/CharacterPage.css'
 import { validateNumPadNotation } from '../utils/helpers.js';
 import ComboMoveCard from '../components/ComboMoveCard.js';
 import ComboList from '../components/ComboList.js';
+import PageNotFound from './404.js';
 import { backEndUrl, testUrl } from '../utils/urls';
 
 export default function CharacterPage() {
+  // tracks whether we should render a 404 message or not 
+  const [render404, setRender404] = useState(false);
   // stores the info about the character for this page
   const [character, setCharacter] = useState({});
   // tracks whether or not to render the text area for submitting a combo
@@ -41,6 +44,7 @@ export default function CharacterPage() {
       console.log(response.data.Combos); 
       setCharacter(response.data);
     } catch (err) {
+      setRender404(true);
       console.log("=====\n" + err + "\n=====");
       throw err;
     }
@@ -188,38 +192,41 @@ export default function CharacterPage() {
     setDisplaySubmissionForm(false);
   }
 
-  // TODO: how are we gonna sanitize inputs?
-
   return (
+
     <div className="character-page container-fluid my-4" style={{paddingTop: '5rem'}}>
-      <div className="row justify-content-center">
-        <div className="portrait-holder col-4 col-md-3 col-lg-2">
-          {/* TODO: style this in CSS to make sure the image isn't constantly resizing in weird ways */}
-          <img className="card-img-top" src={character.portrait} alt={`A portrait of ${character.name}`}></img>
+      {/* We render a 404 page if our fetch request returned no data, and our page content if it did */}
+      {render404 && <PageNotFound/>}
+      {!render404 && (
+        <div className="row justify-content-center">
+          <div className="portrait-holder col-4 col-md-3 col-lg-2">
+            {/* TODO: style this in CSS to make sure the image isn't constantly resizing in weird ways */}
+            <img className="card-img-top" src={character.portrait} alt={`A portrait of ${character.name}`}></img>
+          </div>
+          <div className="description-holder col-10 col-md-7 col-lg-9">
+            <h1 className="font-weight-bold name-and-moniker">{character.name} - {character.moniker}</h1>
+            <p>{character.description}</p>
+          </div>
+          <div className="combo-entry-holder col-10 d-flex justify-content-center align-items-center">
+              {/* This button will only render if we aren't already rendering a combo (!renderComboVisualize) and if we aren't rendering the entry field for combo notation (!renderEntryField) */}
+              {!renderEntryField && !renderComboVisualize && (
+                <button className="btn" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
+              )}
+              {/* Only render the combo entry field if renderEntryField is true */}
+              {renderEntryField && (
+                <form className="form notation-form" name="notation-form" onSubmit={handleNotationFormSubmit}>
+                  <h3>Enter the combo you wish to translate below: </h3>
+                  <textarea onChange={handleChange} name="notation-submission" value={comboNotation} placeholder="Enter your combo here"></textarea>
+                  {errorMessage && (<p className="error-text">{errorMessage}</p>)}
+                  <div className="button-holder d-flex justify-content-center">
+                    <button className="btn" type="submit">Render combo</button>
+                    <button className="btn" type="button" onClick={hideEntryField}>Cancel</button>
+                  </div>
+                </form>
+              )}
+          </div> 
         </div>
-        <div className="description-holder col-10 col-md-7 col-lg-9">
-          <h1 className="font-weight-bold name-and-moniker">{character.name} - {character.moniker}</h1>
-          <p>{character.description}</p>
-        </div>
-        <div className="combo-entry-holder col-10 d-flex justify-content-center align-items-center">
-            {/* This button will only render if we aren't already rendering a combo (!renderComboVisualize) and if we aren't rendering the entry field for combo notation (!renderEntryField) */}
-            {!renderEntryField && !renderComboVisualize && (
-              <button className="btn" onClick={() => setRenderEntryField(true)}>Translate a combo!</button>
-            )}
-            {/* Only render the combo entry field if renderEntryField is true */}
-            {renderEntryField && (
-              <form className="form notation-form" name="notation-form" onSubmit={handleNotationFormSubmit}>
-                <h3>Enter the combo you wish to translate below: </h3>
-                <textarea onChange={handleChange} name="notation-submission" value={comboNotation} placeholder="Enter your combo here"></textarea>
-                {errorMessage && (<p className="error-text">{errorMessage}</p>)}
-                <div className="button-holder d-flex justify-content-center">
-                  <button className="btn" type="submit">Render combo</button>
-                  <button className="btn" type="button" onClick={hideEntryField}>Cancel</button>
-                </div>
-              </form>
-            )}
-        </div> 
-      </div>
+      )}
       {/* If renderComboVisualize is true, then we have the go-ahead to render a translated combo to the page */}
       {renderComboVisualize && (
         <div className="combo-visualizer row justify-content-center">
@@ -261,7 +268,7 @@ export default function CharacterPage() {
 
         </div>
       )}
-      {!renderComboVisualize && <ComboList combos={character.Combos} userId={JSON.parse(window.localStorage.getItem('userInfo'))?.user.id} profile={false}/>}
+      {!renderComboVisualize && !render404 && <ComboList combos={character.Combos} userId={JSON.parse(window.localStorage.getItem('userInfo'))?.user.id} profile={false}/>}
     </div>
   );
 }

@@ -34,6 +34,7 @@ function App() {
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/register" element={<Signup/>}/>
           <Route path="/combos/:id" element={<Combo/>}/>
+          <Route path="/*" element={<PageNotFound/>}/>
         </Routes>
       </Router>
     </>
